@@ -1,80 +1,169 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>施工方案智能审核助手</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-        }
-        .header {
-            background: white;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .header h1 {
-            color: #333;
-            font-size: 24px;
-            margin-bottom: 8px;
-        }
-        .header p {
-            color: #666;
-            font-size: 14px;
-        }
-        .container {
-            max-width: 1400px;
-            margin: 20px auto;
-            padding: 0 20px;
-            height: calc(100vh - 120px);
-            min-height: 600px;
-        }
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            background: white;
-        }
-        .footer {
-            text-align: center;
-            padding: 16px;
-            color: rgba(255,255,255,0.8);
-            font-size: 12px;
-        }
-        @media (max-width: 768px) {
-            .container {
-                padding: 0 10px;
-                height: calc(100vh - 100px);
-            }
-            .header h1 {
-                font-size: 18px;
-            }
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="中国港湾西非区域专项施工方案智能审核平台——西工" />
+  <title>西工｜中国港湾西非区域专项施工方案智能审核平台</title>
+  <style>
+    :root {
+      --navy: #042a4b;
+      --navy-deep: #031a31;
+      --blue: #0a5a98;
+      --gold: #d99b2b;
+      --paper: #f5f8fa;
+      --ink: #1b2d3e;
+      --muted: #657786;
+      --line: #dbe4ea;
+      --white: #fff;
+      --shadow: 0 18px 48px rgba(3, 26, 49, .14);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif;
+      background: var(--paper);
+    }
+    .container { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+
+    .topline { height: 5px; background: linear-gradient(90deg, #ca1f2d 0 38%, var(--gold) 38% 100%); }
+    header { background: rgba(255,255,255,.97); border-bottom: 1px solid var(--line); }
+    .nav { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: flex; align-items: center; gap: 12px; color: var(--navy); text-decoration: none; }
+    .brand-logo { width: 118px; height: 45px; object-fit: contain; flex: 0 0 auto; }
+    .brand-title { font-size: 18px; font-weight: 800; letter-spacing: .3px; }
+    .brand-subtitle { margin-top: 2px; color: #607182; font-size: 11px; letter-spacing: .4px; text-transform: uppercase; }
+    .nav-note { color: var(--muted); font-size: 14px; }
+    .nav-badge { padding: 7px 11px; color: var(--blue); border: 1px solid #b9d5e9; background: #eff8fd; border-radius: 999px; font-size: 13px; font-weight: 700; }
+
+    .hero { position: relative; overflow: hidden; color: #fff; background: var(--navy-deep); }
+    .hero::before {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(115deg, rgba(3, 26, 49, .96) 10%, rgba(4, 42, 75, .86) 52%, rgba(8, 91, 144, .54));
+    }
+    .hero::after {
+      content: ""; position: absolute; right: -15%; bottom: -110px; width: 72%; height: 260px;
+      border-radius: 50%; border: 1px solid rgba(255,255,255,.16); box-shadow: 0 -30px 0 rgba(255,255,255,.04), 0 -60px 0 rgba(255,255,255,.025);
+      transform: rotate(-8deg);
+    }
+    .hero-inner { position: relative; z-index: 1; padding: 74px 0 67px; }
+    .eyebrow { display: flex; align-items: center; gap: 8px; color: #cce5f5; font-size: 14px; letter-spacing: 1px; }
+    .eyebrow::before { content: ""; width: 30px; height: 2px; background: var(--gold); }
+    h1 { max-width: 800px; margin: 17px 0 15px; font-size: clamp(32px, 4.4vw, 53px); line-height: 1.22; letter-spacing: 1px; }
+    h1 strong { color: #f6c65b; font-weight: inherit; }
+    .hero p { max-width: 720px; margin: 0; color: #d7e5ee; font-size: 17px; line-height: 1.85; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 28px; }
+    .button { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 21px; border-radius: 4px; font-weight: 700; text-decoration: none; transition: .2s ease; }
+    .button-primary { color: #10263b; background: #f5c65d; box-shadow: 0 8px 20px rgba(0,0,0,.17); }
+    .button-primary:hover { transform: translateY(-2px); background: #ffda80; }
+    .button-secondary { color: #fff; border: 1px solid rgba(255,255,255,.42); background: rgba(255,255,255,.08); }
+    .button-secondary:hover { background: rgba(255,255,255,.16); }
+    .hero-stats { display: flex; flex-wrap: wrap; gap: 0; margin-top: 38px; }
+    .hero-stat { min-width: 142px; padding: 3px 24px 3px 0; margin-right: 24px; border-right: 1px solid rgba(255,255,255,.23); }
+    .hero-stat:last-child { border: 0; }
+    .hero-stat b { display: block; font-size: 17px; color: #fff; }
+    .hero-stat span { display: block; margin-top: 5px; font-size: 12px; color: #b8d0df; }
+
+    main { padding: 42px 0 72px; }
+    .section-label { color: var(--blue); font-weight: 800; font-size: 13px; letter-spacing: 1.3px; }
+    h2 { margin: 8px 0 10px; font-size: clamp(25px, 3vw, 33px); color: var(--navy); }
+    .section-intro { margin: 0; color: var(--muted); line-height: 1.8; }
+    .capability-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin: 25px 0 44px; }
+    .capability { min-height: 178px; padding: 25px 23px; border: 1px solid var(--line); border-radius: 7px; background: #fff; box-shadow: 0 8px 22px rgba(16, 52, 76, .05); }
+    .capability-icon { display: grid; place-items: center; width: 40px; height: 40px; color: var(--blue); border-radius: 50%; background: #eaf4fa; font-weight: 800; }
+    .capability h3 { margin: 17px 0 8px; color: var(--navy); font-size: 17px; }
+    .capability p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
+
+    .review-shell { overflow: hidden; border: 1px solid var(--line); border-radius: 9px; background: #fff; box-shadow: var(--shadow); }
+    .review-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 24px; color: #fff; background: linear-gradient(100deg, var(--navy), #07558e); }
+    .review-title { display: flex; gap: 12px; align-items: center; }
+    .xigong { display: grid; place-items: center; width: 38px; height: 38px; color: #17344e; border-radius: 50%; background: #f4c967; font-size: 15px; font-weight: 900; }
+    .review-title b { display: block; font-size: 17px; }
+    .review-title span { display: block; margin-top: 3px; color: #c0d9ea; font-size: 12px; }
+    .online { display: flex; align-items: center; gap: 7px; color: #d3f3e0; font-size: 13px; white-space: nowrap; }
+    .online::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #54d686; box-shadow: 0 0 0 4px rgba(84,214,134,.15); }
+    .review-frame { height: 780px; background: #f7fafc; }
+    iframe { display: block; width: 100%; height: 100%; border: 0; }
+    .notice { display: flex; gap: 10px; padding: 15px 22px; color: #596c7d; border-top: 1px solid var(--line); background: #fbfcfd; font-size: 12px; line-height: 1.7; }
+    .notice b { color: var(--navy); white-space: nowrap; }
+    footer { color: #b9c7d2; background: var(--navy-deep); }
+    .footer-inner { display: flex; justify-content: space-between; gap: 20px; padding: 24px 0; font-size: 13px; }
+    .footer-inner span:last-child { text-align: right; }
+
+    @media (max-width: 760px) {
+      .container { width: min(100% - 28px, 1180px); }
+      .nav { min-height: 66px; } .nav-note { display: none; }
+      .brand-title { font-size: 16px; } .brand-subtitle { display: none; }
+      .hero-inner { padding: 55px 0 50px; } .hero p { font-size: 15px; }
+      .hero-stat { min-width: 128px; margin: 0 15px 10px 0; padding-right: 15px; }
+      .capability-grid { grid-template-columns: 1fr; margin-bottom: 34px; }
+      .review-top { padding: 15px; } .review-frame { height: 720px; }
+      .online { font-size: 11px; } .notice { padding: 13px 15px; }
+      .footer-inner { display: block; line-height: 1.8; } .footer-inner span:last-child { display: block; text-align: left; }
+    }
+  </style>
 </head>
 <body>
-    <div class="header">
-        <h1>🏗️ 施工方案智能审核助手</h1>
-        <p>上传 Word 版专项施工方案，AI 自动审核规范符合性并给出修改建议</p>
+  <div class="topline"></div>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#top" aria-label="中国港湾西非区域工程技术部">
+        <img class="brand-logo" alt="中国港湾 CHEC" src="data:image/png;base64,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" />
+        <div>
+          <div class="brand-title">中国港湾西非区域工程技术部</div>
+          <div class="brand-subtitle">China Harbour · West Africa Regional Office</div>
+        </div>
+      </a>
+      <div class="nav-note">专项施工方案智能审核平台</div>
+      <span class="nav-badge">西工 · AI 助手</span>
     </div>
-    <div class="container">
-        <iframe 
-            src="https://udify.app/chatbot/0mcef0TIJ0aDr8kl"
-            allow="microphone">
-        </iframe>
+  </header>
+
+  <section class="hero" id="top">
+    <div class="container hero-inner">
+      <div class="eyebrow">工程技术数字化工具</div>
+      <h1>中国港湾西非区域<br><strong>专项施工方案</strong>智能审核平台</h1>
+      <p>“西工”基于项目知识库与工程规范，为专项施工方案提供条文对比、风险识别与优化建议，提升技术审核的效率、规范性和可追溯性。</p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="#review">开始提交方案审核</a>
+        <a class="button button-secondary" href="#capabilities">了解审核能力</a>
+      </div>
+      <div class="hero-stats" aria-label="平台能力">
+        <div class="hero-stat"><b>规范比对</b><span>知识库检索与条文依据引用</span></div>
+        <div class="hero-stat"><b>多格式支持</b><span>Word、文字型与图片型 PDF</span></div>
+        <div class="hero-stat"><b>专业建议</b><span>结合工程经验的优化分析</span></div>
+      </div>
     </div>
-    <div class="footer">
-        🤖 由 AI 施工方案审核专家提供技术支持
-    </div>
+  </section>
+
+  <main>
+    <section class="container" id="capabilities">
+      <div class="section-label">PLATFORM CAPABILITIES</div>
+      <h2>让技术审核更聚焦、更有依据</h2>
+      <p class="section-intro">请上传待审核的专项施工方案。系统将按已配置的工作流完成文件解析、规范检索与审核输出。</p>
+      <div class="capability-grid">
+        <article class="capability"><div class="capability-icon">01</div><h3>规范条文比对</h3><p>检索已纳入知识库的规范标准，输出可追溯的来源文件与对应条文依据。</p></article>
+        <article class="capability"><div class="capability-icon">02</div><h3>智能文件解析</h3><p>适配 Word、文字型 PDF 和图片型 PDF，支持长文档分段解析与汇总。</p></article>
+        <article class="capability"><div class="capability-icon">03</div><h3>工程优化建议</h3><p>在满足知识库要求后，结合专业经验提出潜在关注项与优化建议。</p></article>
+      </div>
+    </section>
+
+    <section class="container" id="review">
+      <div class="review-shell">
+        <div class="review-top">
+          <div class="review-title"><div class="xigong">西工</div><div><b>专项施工方案智能审核</b><span>上传文件后，由“西工”协助完成审核</span></div></div>
+          <div class="online">服务已就绪</div>
+        </div>
+        <!-- 保留原有 Dify 应用地址，不改变工作流调用方式。 -->
+        <div class="review-frame"><iframe src="https://udify.app/chatbot/0mcef0TIJ0aDr8kl" title="西工专项施工方案审核" allow="microphone"></iframe></div>
+        <div class="notice"><b>使用说明：</b><span>本工具用于辅助技术审核。审核结论应由具备相应资格的工程技术人员结合项目实际情况进行复核和确认。</span></div>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="container footer-inner"><span>© 中国港湾西非区域工程技术部 · 西工 AI 工程技术助手</span><span>专项施工方案智能审核平台</span></div></footer>
 </body>
 </html>
